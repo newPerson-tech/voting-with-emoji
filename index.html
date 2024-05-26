@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voting with emodji</title>
+    <style>
+      .emoji {
+        font-size: 2em;
+        cursor: pointer;
+        padding: 0 10px;
+      }
+      .counter {
+        text-align: center;
+        margin-top: 5px;
+      }
+      .question {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+      .emoji-container {
+        display: inline-block;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="emoji-voting">
+      <div id="question" class="question">
+        Are we going to meet for a reading club today?
+      </div>
+      <!-- Emodji will be added by js -->
+    </div>
+
+    <script>
+      // List of emoji smiles
+      const emojis = ["😀", "😅", "😂", "😍", "🤔"];
+
+      // An object to save amount of votes
+      const votes = {};
+
+      // Vote initialization for every emoji
+      emojis.forEach((emoji) => {
+        votes[emoji] = 0;
+      });
+
+      // Getting access to div for voting
+      const votingContainer = document.getElementById("emoji-voting");
+
+      // UI update function
+      function updateUI() {
+        votingContainer.innerHTML =
+          '<div id="question" class="question">Are we going to meet for a reading club today?</div>';
+
+        emojis.forEach((emoji) => {
+          // Creating a container for emodji and counter
+          const emojiContainer = document.createElement("div");
+          emojiContainer.className = "emoji-container";
+
+          // Creating an element for emoji
+          const emojiSpan = document.createElement("span");
+          emojiSpan.className = "emoji";
+          emojiSpan.textContent = emoji;
+          emojiSpan.addEventListener("click", () => {
+            votes[emoji]++;
+            updateUI();
+          });
+
+          // Creating an element for counter
+          const counterDiv = document.createElement("div");
+          counterDiv.className = "counter";
+          counterDiv.textContent = votes[emoji];
+
+          // Adding emoji and counter elements to div
+          emojiContainer.appendChild(emojiSpan);
+          emojiContainer.appendChild(counterDiv);
+
+          votingContainer.appendChild(emojiContainer);
+        });
+      }
+
+      updateUI();
+    </script>
+  </body>
+</html>
