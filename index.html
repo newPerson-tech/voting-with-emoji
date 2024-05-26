@@ -33,7 +33,7 @@
     </div>
 
     <script>
-      // List of emoji smiles
+      // List of emoji
       const emojis = [
         { emoji: "😀", description: "Absolutely!" },
         { emoji: "😅", description: "Not sure" },
@@ -42,45 +42,53 @@
         { emoji: "🤔", description: "Less likely" },
       ];
 
-      // An object to save amount of votes
+      // An object to save votes
       const votes = {};
 
-      // Vote initialization for every emoji
-      emojis.forEach((emoji) => {
-        votes[emoji] = 0;
+      // Votes initialization for every emoji
+      emojis.forEach((item) => {
+        votes[item.emoji] = 0;
       });
 
-      // Getting access to div for voting
+      // Access to container for voting
       const votingContainer = document.getElementById("emoji-voting");
 
-      // UI update function
+      // UI update
       function updateUI() {
+        // Clear container except the question
         votingContainer.innerHTML =
           '<div id="question" class="question">Are we going to meet for a reading club today?</div>';
 
-        emojis.forEach((emoji) => {
-          // Creating a container for emodji and counter
+        emojis.forEach((item) => {
+          // Creating a container for emoji and counter
           const emojiContainer = document.createElement("div");
           emojiContainer.className = "emoji-container";
 
-          // Creating an element for emoji
+          // Creating element for emoji
           const emojiSpan = document.createElement("span");
           emojiSpan.className = "emoji";
-          emojiSpan.textContent = emoji;
+          emojiSpan.textContent = item.emoji;
           emojiSpan.addEventListener("click", () => {
-            votes[emoji]++;
+            votes[item.emoji]++;
             updateUI();
           });
 
-          // Creating an element for counter
+          // Creating element for description of emoji
+          const descriptionDiv = document.createElement("div");
+          descriptionDiv.className = "description";
+          descriptionDiv.textContent = item.description;
+
+          // Creating element for counter
           const counterDiv = document.createElement("div");
           counterDiv.className = "counter";
-          counterDiv.textContent = votes[emoji];
+          counterDiv.textContent = votes[item.emoji];
 
-          // Adding emoji and counter elements to div
+          // Adding emoji, description and counter to div
           emojiContainer.appendChild(emojiSpan);
+          emojiContainer.appendChild(descriptionDiv);
           emojiContainer.appendChild(counterDiv);
 
+          // Adding emoji container to a main div
           votingContainer.appendChild(emojiContainer);
         });
       }
